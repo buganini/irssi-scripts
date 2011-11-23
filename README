@@ -7,5 +7,6 @@ yell:
 
 offline:
 	send /msg when someone appear
-	#in channel window
 	/olmsg nick message
+	/olmsg -network nick message
+
