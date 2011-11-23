@@ -1,6 +1,6 @@
 use strict;
 
-sub cmd_derder{
+sub cmd_yell{
 	my($param,$serv,$chan) = @_;
 	my $line;
 	for my $n ($chan->nicks()){
@@ -11,4 +11,4 @@ sub cmd_derder{
 	}
 }
 
-Irssi::command_bind('derder', 'cmd_derder');
+Irssi::command_bind('yell', 'cmd_yell');
