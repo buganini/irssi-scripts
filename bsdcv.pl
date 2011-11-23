@@ -9,7 +9,7 @@ $VERSION = '2009060600';
 	name		=> 'bsdcv',
 	description	=> 'bsdconv conversion',
 	license		=> 'BSD',
-	url		=> 'http://github.com/buganini/bsdconv',
+	url		=> 'http://github.com/buganini/irssi-scripts',
 	modules		=> 'bsdconv',
 );
 
