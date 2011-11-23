@@ -24,7 +24,7 @@ sub try_delivery {
 			Irssi::print("send offline message to ${net}::$nick: $msg");
 		}
 	}
-};
+}
 
 sub sig_massjoin {
 	my($chan, $nicks) = @_;
