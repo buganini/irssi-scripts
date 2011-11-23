@@ -53,7 +53,7 @@ sub cmd_olmsg {
 	my($param,$serv,$chan) = @_;
 	my($nick, $msg) = split(/ +/, $param, 2);
 	my($net);
-	if($nick  = ~ /^-/){
+	if($nick =~ /^-/){
 		$net = substr($nick, 1);
 		($nick, $msg) = split(/ +/, $msg, 2);
 	}else{
@@ -61,8 +61,12 @@ sub cmd_olmsg {
 	}
 	push(@{$db{$net}{$nick}}, $msg);
 	Irssi::print("save offline message to ${net}::$nick: $msg");
-	if(defined($chan)){
-		try_delivery(Irssi::server_find_chatnet($net) || Irssi::server_find_tag($net), $nick);
+	my @chans = Irssi::channels;
+	for my $chan (@chans){
+		my $n = $chan->{server}->{chatnet} || $chan->{server}->{tag};
+		if($n eq $net){
+			try_delivery($chan->{server}, map{ $_->{nick} } $chan->nicks);
+		}
 	}
 }
 
