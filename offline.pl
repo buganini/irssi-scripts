@@ -7,7 +7,7 @@ $VERSION = '2011112300';
 	authors		=> 'Buganini',
 	contact		=> 'buganini@gmail.com',
 	name		=> 'offline',
-	description	=> 'offline',
+	description	=> 'offline msg',
 	license		=> 'BSD',
 	url		=> 'http://github.com/buganini/irssi-scripts',
 );
