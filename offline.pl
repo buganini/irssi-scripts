@@ -28,13 +28,11 @@ sub try_delivery {
 
 sub sig_massjoin {
 	my($chan, $nicks) = @_;
-	Irssi::print('massjoin');
 	try_delivery($chan->{server}, @$nicks);
 }
 
 sub sig_nick_mode_changed {
 	my($chan, $nick) = @_;
-	Irssi::print('nick mode changed');
 	if ($chan->{synced} && $chan->{server}{nick} eq $nick->{nick}) {
 		try_delivery($chan->{server}, $chan->nicks);
 	}
@@ -42,7 +40,6 @@ sub sig_nick_mode_changed {
 
 sub sig_channel_sync {
 	my($chan) = @_;
-	Irssi::print('channel sync');
 	try_delivery($chan->{server}, $chan->nicks);
 }
 
