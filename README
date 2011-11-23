@@ -4,3 +4,8 @@ irssi-bsdconv:
 yell:
 	tool to make you /kb-ed
 	/yell blah
+
+offline:
+	send /msg when someone appear
+	#in channel window
+	/olmsg nick message
