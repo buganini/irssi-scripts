@@ -13,18 +13,18 @@ $VERSION = '2011112300';
 );
 
 my($file) = Irssi::get_irssi_dir."/offline-messages";
-	my %db=();
+my %db = ();
 if (-e $file){
 	my $hashref = retrieve($file);
-	%db=%$hashref;
+	%db = %$hashref;
 }
 
 sub try_delivery {
 	my($serv, @nicks) = @_;
-	my $net=$serv->{chatnet} || $serv->{tag};
+	my $net = $serv->{chatnet} || $serv->{tag};
 	for my $nick (@nicks){
 		while(defined($db{$net}{$nick}) && @{$db{$net}{$nick}}){
-			my $msg=shift @{$db{$net}{$nick}};
+			my $msg = shift @{$db{$net}{$nick}};
 			$serv->command("msg -$net $nick $msg");
 			Irssi::print("send offline message to ${net}::$nick: $msg");
 		}
@@ -53,11 +53,11 @@ sub cmd_olmsg {
 	my($param,$serv,$chan) = @_;
 	my($nick, $msg) = split(/ +/, $param, 2);
 	my($net);
-	if($nick =~ /^-/){
+	if($nick  = ~ /^-/){
 		$net = substr($nick, 1);
 		($nick, $msg) = split(/ +/, $msg, 2);
 	}else{
-		$net=$serv->{chatnet} || $serv->{tag};
+		$net = $serv->{chatnet} || $serv->{tag};
 	}
 	push(@{$db{$net}{$nick}}, $msg);
 	Irssi::print("save offline message to ${net}::$nick: $msg");
