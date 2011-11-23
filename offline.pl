@@ -23,7 +23,6 @@ sub try_delivery {
 	my($serv, @nicks) = @_;
 	my $net=$serv->{chatnet} || $serv->{tag};
 	for my $nick (@nicks){
-		$nick=$nick->{nick};
 		while(defined($db{$net}{$nick}) && @{$db{$net}{$nick}}){
 			my $msg=shift @{$db{$net}{$nick}};
 			$serv->command("msg -$net $nick $msg");
@@ -35,29 +34,35 @@ sub try_delivery {
 
 sub sig_massjoin {
 	my($chan, $nicks) = @_;
-	try_delivery($chan->{server}, @$nicks);
+	try_delivery($chan->{server}, map{ $_->{nick} } @$nicks);
 }
 
 sub sig_nick_mode_changed {
 	my($chan, $nick) = @_;
 	if ($chan->{synced} && $chan->{server}{nick} eq $nick->{nick}) {
-		try_delivery($chan->{server}, $chan->nicks);
+		try_delivery($chan->{server}, $nick->{nick});
 	}
 }
 
 sub sig_channel_sync {
 	my($chan) = @_;
-	try_delivery($chan->{server}, $chan->nicks);
+	try_delivery($chan->{server}, map{ $_->{nick} } $chan->nicks);
 }
 
 sub cmd_olmsg {
 	my($param,$serv,$chan) = @_;
 	my($nick, $msg) = split(/ +/, $param, 2);
-	my $net=$serv->{chatnet} || $serv->{tag};
+	my($net);
+	if($nick =~ /^-/){
+		$net = substr($nick, 1);
+		($nick, $msg) = split(/ +/, $msg, 2);
+	}else{
+		$net=$serv->{chatnet} || $serv->{tag};
+	}
 	push(@{$db{$net}{$nick}}, $msg);
 	Irssi::print("save offline message to ${net}::$nick: $msg");
 	if(defined($chan)){
-		try_delivery($serv, $chan->nicks);
+		try_delivery(Irssi::server_find_chatnet($net) || Irssi::server_find_tag($net), $nick);
 	}
 }
 
