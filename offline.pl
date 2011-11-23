@@ -1,4 +1,5 @@
 use strict;
+use Storable;
 
 use vars qw($VERSION %IRSSI);
 $VERSION = '2011112300';
@@ -11,7 +12,12 @@ $VERSION = '2011112300';
 	url		=> 'http://github.com/buganini/irssi-scripts',
 );
 
-my %db=();
+my($file) = Irssi::get_irssi_dir."/offline-messages";
+	my %db=();
+if (-e $file){
+	my $hashref = retrieve($file);
+	%db=%$hashref;
+}
 
 sub try_delivery {
 	my($serv, @nicks) = @_;
@@ -24,6 +30,7 @@ sub try_delivery {
 			Irssi::print("send offline message to ${net}::$nick: $msg");
 		}
 	}
+	store \%db, $file;
 }
 
 sub sig_massjoin {
