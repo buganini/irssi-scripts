@@ -2,7 +2,7 @@ use strict;
 use bsdconv;
 
 use vars qw($VERSION %IRSSI);
-$VERSION = '2009060600';
+$VERSION = '2013082500';
 %IRSSI = (
 	authors		=> 'Buganini',
 	contact		=> 'buganini@gmail.com',
@@ -30,7 +30,7 @@ sub on_recv () {
 	}
 	my $nline=$h->conv($line);
 	my $info=$h->info();
-	if($info->{'ierr'}){
+	if($info->{'IERR'}){
 		$nline=$line;
 	}
 	$h=undef;
@@ -55,7 +55,7 @@ sub on_topic () {
 	}
 	my $nline=$h->conv($server_rec->{topic});
 	my $info=$h->info();
-	if($info->{'ierr'}){
+	if($info->{'IERR'}){
 		$nline=$server_rec->{topic};
 	}
 	$h=undef;
@@ -81,7 +81,7 @@ sub bsdconv_out () {
 	}
 	my $nline=$h->conv($line);
 	my $info=$h->info();
-	if($info->{'ierr'}){
+	if($info->{'IERR'}){
 		$nline=$line;
 	}
 	$h=undef;
